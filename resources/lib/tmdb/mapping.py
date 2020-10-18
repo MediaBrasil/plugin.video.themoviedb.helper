@@ -475,10 +475,10 @@ class ItemMapper(_ItemMapper):
                 'keys': [('infolabels', 'imdbnumber'), ('unique_ids', 'imdb')]
             }],
             'character': [{
-                'keys': [('infoproperties', 'role'), ('infoproperties', 'character')]
+                'keys': [('infoproperties', 'role'), ('infoproperties', 'character'), ('label2', None)]
             }],
             'job': [{
-                'keys': [('infoproperties', 'role'), ('infoproperties', 'job')]
+                'keys': [('infoproperties', 'role'), ('infoproperties', 'job'), ('label2', None)]
             }],
             'biography': [{
                 'keys': [('infoproperties', 'biography'), ('infolabels', 'plot')]
