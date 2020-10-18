@@ -88,7 +88,7 @@ def dumps_to_file(data, folder, filename, indent=2):
 
 
 def _get_write_path(folder):
-    main_dir = os.path.join(xbmc.translatePath(ADDONDATA), folder)
+    main_dir = os.path.join(xbmcvfs.translatePath(ADDONDATA), folder)
     if not os.path.exists(main_dir):
         os.makedirs(main_dir)
     return main_dir
@@ -96,12 +96,12 @@ def _get_write_path(folder):
 
 def make_path(path, warn_dialog=False):
     if xbmcvfs.exists(path):
-        return xbmc.translatePath(path)
+        return xbmcvfs.translatePath(path)
     if xbmcvfs.mkdirs(path):
-        return xbmc.translatePath(path)
+        return xbmcvfs.translatePath(path)
     if ADDON.getSettingBool('ignore_folderchecking'):
         kodi_log(u'Ignored xbmcvfs folder check error\n{}'.format(path), 2)
-        return xbmc.translatePath(path)
+        return xbmcvfs.translatePath(path)
     kodi_log(u'XBMCVFS unable to create path:\n{}'.format(path), 2)
     if not warn_dialog:
         return

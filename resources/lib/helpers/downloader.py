@@ -20,7 +20,7 @@ if sys.version_info[0] >= 3:
 class Downloader(object):
     def __init__(self, download_url=None, extract_to=None):
         self.download_url = download_url
-        self.extract_to = xbmc.translatePath(extract_to)
+        self.extract_to = xbmcvfs.translatePath(extract_to)
         self.msg_cleardir = ADDON.getLocalizedString(32054)
 
     def recursive_delete_dir(self, fullpath):

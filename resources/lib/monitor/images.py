@@ -34,7 +34,7 @@ def _openimage(image, targetpath, filename):
             for cache in cached_files:
                 if xbmcvfs.exists(cache):
                     try:
-                        img = Image.open(xbmc.translatePath(cache))
+                        img = Image.open(xbmcvfs.translatePath(cache))
                         return img
 
                     except Exception as error:
@@ -48,7 +48,7 @@ def _openimage(image, targetpath, filename):
                     image = os.path.join('special://skin/media/', image)
 
                 try:  # in case image is packed in textures.xbt
-                    img = Image.open(xbmc.translatePath(image))
+                    img = Image.open(xbmcvfs.translatePath(image))
                     return img
 
                 except Exception:
@@ -232,7 +232,7 @@ class ImageFunctions(Thread):
         try:
             if xbmcvfs.exists(destination):
                 os.utime(destination, None)
-                img = Image.open(xbmc.translatePath(destination))
+                img = Image.open(xbmcvfs.translatePath(destination))
             else:
                 img = _openimage(source, self.save_path, filename)
                 img.thumbnail((256, 256))
