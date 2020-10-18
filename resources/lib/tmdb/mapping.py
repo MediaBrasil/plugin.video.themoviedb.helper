@@ -1,11 +1,10 @@
 import xbmc
-from resources.lib.helpers.plugin import get_mpaa_prefix, get_language
-from resources.lib.helpers.plugin import viewitems, ADDON
+from resources.lib.helpers.plugin import get_mpaa_prefix, get_language, viewitems, ADDON
 from resources.lib.helpers.parser import try_int, try_float
 from resources.lib.helpers.setutils import iter_props, dict_to_list, get_params
 from resources.lib.helpers.timedate import format_date
 from resources.lib.helpers.constants import IMAGEPATH_ORIGINAL, IMAGEPATH_POSTER, TMDB_GENRE_IDS
-from resources.lib.helpers.mapping import UPDATE_BASEKEY, _ItemMapper
+from resources.lib.helpers.mapping import UPDATE_BASEKEY, _ItemMapper, get_empty_item
 
 
 def get_imagepath_poster(v):
@@ -303,14 +302,14 @@ class ItemMapper(_ItemMapper):
                 'type': str
             }],
             'vote_count': [{
-                'keys': [('infolabels', 'votes')],
+                'keys': [('infolabels', 'votes'), ('infoproperties', 'tmdb_votes')],
                 'type': float,
                 'func': lambda v: '{:0,.0f}'.format(v)
             }],
             'vote_average': [{
-                'keys': [('infolabels', 'rating')],
+                'keys': [('infolabels', 'rating'), ('infoproperties', 'tmdb_rating')],
                 'type': float,
-                'func': lambda v: '{:0,.0f}'.format(v)
+                'func': lambda v: '{:.1f}'.format(v)
             }],
             'budget': [{
                 'keys': [('infoproperties', 'budget')],
@@ -476,10 +475,10 @@ class ItemMapper(_ItemMapper):
                 'keys': [('infolabels', 'imdbnumber'), ('unique_ids', 'imdb')]
             }],
             'character': [{
-                'keys': [('infoproperties', 'role'), ('infoproperties', 'character')]
+                'keys': [('infoproperties', 'role'), ('infoproperties', 'character'), ('label2', None)]
             }],
             'job': [{
-                'keys': [('infoproperties', 'role'), ('infoproperties', 'job')]
+                'keys': [('infoproperties', 'role'), ('infoproperties', 'job'), ('label2', None)]
             }],
             'biography': [{
                 'keys': [('infoproperties', 'biography'), ('infolabels', 'plot')]
@@ -511,11 +510,14 @@ class ItemMapper(_ItemMapper):
             'department': ('infoproperties', 'department'),
             'place_of_birth': ('infoproperties', 'born'),
             'birthday': ('infoproperties', 'birthday'),
-            'deathday': ('infoproperties', 'deathday')
+            'deathday': ('infoproperties', 'deathday'),
+            'width': ('infoproperties', 'width'),
+            'height': ('infoproperties', 'height'),
+            'aspect_ratio': ('infoproperties', 'aspect_ratio')
         }
 
     def get_info(self, info_item, tmdb_type, base_item=None, **kwargs):
-        item = self.get_item()
+        item = get_empty_item()
         item = self.map_item(item, info_item)
         item = self.add_base(item, base_item, tmdb_type)
         item = self.finalise(item, tmdb_type)

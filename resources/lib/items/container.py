@@ -164,6 +164,11 @@ class Container(object, TMDbLists, BaseDirLists, SearchLists, UserDiscoverLists,
         self.plugin_category = item.get('label')
         return self.get_items(**item.get('params', {}))
 
+    def get_tmdb_id(self, info, **kwargs):
+        if info == 'collection':
+            kwargs['tmdb_type'] = 'collection'
+        return self.tmdb_api.get_tmdb_id(**kwargs)
+
     # @timer_report('get_items')
     def get_items(self, **kwargs):
         info = kwargs.get('info')
@@ -199,9 +204,11 @@ class Container(object, TMDbLists, BaseDirLists, SearchLists, UserDiscoverLists,
             return self.list_randomised(**kwargs)
         if info in RANDOMISED_TRAKT:
             return self.list_randomised_trakt(**kwargs)
+        if info == 'trakt_sortby':
+            return self.list_trakt_sortby(**kwargs)
 
-        if not kwargs.get('tmdb_id'):
-            kwargs['tmdb_id'] = self.tmdb_api.get_tmdb_id(**kwargs)
+        if info and not kwargs.get('tmdb_id'):
+            kwargs['tmdb_id'] = self.get_tmdb_id(**kwargs)
 
         if info == 'details':
             return self.list_details(**kwargs)

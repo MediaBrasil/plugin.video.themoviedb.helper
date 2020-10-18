@@ -15,7 +15,7 @@ from json import loads
 
 
 API_URL = 'https://api.themoviedb.org/3'
-APPEND_TO_RESPONSE = 'credits,release_dates,content_ratings,external_ids,movie_credits,tv_credits,keywords,reviews'
+APPEND_TO_RESPONSE = 'credits,release_dates,content_ratings,external_ids,movie_credits,tv_credits,keywords,reviews,videos'
 
 
 class TMDb(RequestAPI):
@@ -320,6 +320,13 @@ class TMDb(RequestAPI):
 
     def get_discover_list(self, tmdb_type, **kwargs):
         # TODO: Check what regions etc we need to have
+        for k, v in viewitems(kwargs):
+            if k in ['with_id', 'with_separator']:
+                continue
+            if k and v:
+                break
+        else:  # Only build discover list if we have params to pass
+            return
         path = 'discover/{}'.format(tmdb_type)
         return self.get_basic_list(path, tmdb_type, **kwargs)
 

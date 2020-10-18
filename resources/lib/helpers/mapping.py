@@ -5,6 +5,16 @@ from resources.lib.helpers.timedate import age_difference
 UPDATE_BASEKEY = 1
 
 
+def get_empty_item():
+    return {
+        'art': {},
+        'cast': [],
+        'infolabels': {},
+        'infoproperties': {},
+        'unique_ids': {},
+        'params': {}}
+
+
 def set_show(item, base_item=None):
     if not base_item:
         return item
@@ -20,15 +30,6 @@ def set_show(item, base_item=None):
 
 
 class _ItemMapper(object):
-    def get_item(self):
-        return {
-            'art': {},
-            'cast': [],
-            'infolabels': {},
-            'infoproperties': {},
-            'unique_ids': {},
-            'params': {}}
-
     def add_base(self, item, base_item=None, tmdb_type=None):
         if not base_item:
             return item
@@ -40,6 +41,13 @@ class _ItemMapper(object):
         return set_show(item, base_item) if tmdb_type in ['season', 'episode', 'tv'] else item
 
     def finalise(self, item, tmdb_type):
+        if tmdb_type == 'image':
+            item['infolabels']['title'] = '{}x{}'.format(
+                item['infoproperties'].get('width'),
+                item['infoproperties'].get('height'))
+            item['params'] = -1
+            item['path'] = item['art'].get('thumb') or item['art'].get('poster') or item['art'].get('fanart')
+            item['is_folder'] = False
         item['label'] = item['infolabels'].get('title')
         item['infoproperties']['tmdb_type'] = tmdb_type
         item['infolabels']['mediatype'] = convert_type(tmdb_type, TYPE_DB)
@@ -97,6 +105,8 @@ class _ItemMapper(object):
                 for p, c in d['keys']:
                     if c == UPDATE_BASEKEY:
                         item[p].update(v)
+                    elif c is None:
+                        item[p] = v
                     elif 'extend' in d and isinstance(item[p].get(c), list) and isinstance(v, list):
                         item[p][c] += v
                     else:
