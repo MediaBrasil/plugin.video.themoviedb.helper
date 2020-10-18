@@ -3,7 +3,7 @@ import datetime
 import resources.lib.helpers.cache as cache
 from resources.lib.tmdb.mapping import ItemMapper, get_episode_to_air
 from resources.lib.request.api import RequestAPI
-from resources.lib.helpers.plugin import viewitems, ADDON, get_mpaa_prefix, get_language, convert_type, TYPE_DB, ADDONPATH, kodi_log
+from resources.lib.helpers.plugin import viewitems, ADDON, get_mpaa_prefix, get_language, convert_type, TYPE_DB, ADDONPATH
 from resources.lib.helpers.downloader import Downloader
 from resources.lib.items.listitem import ListItem
 from resources.lib.helpers.constants import TMDB_ALL_ITEMS_LISTS, TMDB_PARAMS_SEASONS, TMDB_PARAMS_EPISODES
@@ -15,7 +15,7 @@ from json import loads
 
 
 API_URL = 'https://api.themoviedb.org/3'
-APPEND_TO_RESPONSE = 'credits,release_dates,content_ratings,external_ids,movie_credits,tv_credits,keywords,reviews'
+APPEND_TO_RESPONSE = 'credits,release_dates,content_ratings,external_ids,movie_credits,tv_credits,keywords,reviews,videos'
 
 
 class TMDb(RequestAPI):
