@@ -1,5 +1,5 @@
 import random
-from resources.lib.helpers.plugin import viewitems
+from resources.lib.helpers.plugin import viewitems, kodi_log
 # from resources.lib.helpers.decorators import timer_report
 
 
@@ -80,6 +80,9 @@ def iter_props(items, property_name, infoproperties=None, func=None, **kwargs):
 def get_params(item, tmdb_type, tmdb_id=None, params=None, definition=None, base_tmdb_type=None):
     params = params or {}
     tmdb_id = tmdb_id or item.get('id')
+    kodi_log(definition, 1)
+    if params == -1:
+        return {}
     definition = definition or {'info': 'details', 'tmdb_type': '{tmdb_type}', 'tmdb_id': '{tmdb_id}'}
     for k, v in viewitems(definition):
         params[k] = v.format(tmdb_type=tmdb_type, tmdb_id=tmdb_id, base_tmdb_type=base_tmdb_type, **item)

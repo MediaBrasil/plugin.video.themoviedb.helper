@@ -302,14 +302,14 @@ class ItemMapper(_ItemMapper):
                 'type': str
             }],
             'vote_count': [{
-                'keys': [('infolabels', 'votes')],
+                'keys': [('infolabels', 'votes'), ('infoproperties', 'tmdb_votes')],
                 'type': float,
                 'func': lambda v: '{:0,.0f}'.format(v)
             }],
             'vote_average': [{
-                'keys': [('infolabels', 'rating')],
+                'keys': [('infolabels', 'rating'), ('infoproperties', 'tmdb_rating')],
                 'type': float,
-                'func': lambda v: '{:0,.0f}'.format(v)
+                'func': lambda v: '{:.1f}'.format(v)
             }],
             'budget': [{
                 'keys': [('infoproperties', 'budget')],
@@ -510,7 +510,10 @@ class ItemMapper(_ItemMapper):
             'department': ('infoproperties', 'department'),
             'place_of_birth': ('infoproperties', 'born'),
             'birthday': ('infoproperties', 'birthday'),
-            'deathday': ('infoproperties', 'deathday')
+            'deathday': ('infoproperties', 'deathday'),
+            'width': ('infoproperties', 'width'),
+            'height': ('infoproperties', 'height'),
+            'aspect_ratio': ('infoproperties', 'aspect_ratio')
         }
 
     def get_info(self, info_item, tmdb_type, base_item=None, **kwargs):
