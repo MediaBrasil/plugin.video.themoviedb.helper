@@ -41,6 +41,13 @@ class _ItemMapper(object):
         return set_show(item, base_item) if tmdb_type in ['season', 'episode', 'tv'] else item
 
     def finalise(self, item, tmdb_type):
+        if tmdb_type == 'image':
+            item['infolabels']['title'] = '{}x{}'.format(
+                item['infoproperties'].get('width'),
+                item['infoproperties'].get('height'))
+            item['params'] = -1
+            item['path'] = item['art'].get('thumb') or item['art'].get('poster') or item['art'].get('fanart')
+            item['is_folder'] = False
         item['label'] = item['infolabels'].get('title')
         item['infoproperties']['tmdb_type'] = tmdb_type
         item['infolabels']['mediatype'] = convert_type(tmdb_type, TYPE_DB)

@@ -132,6 +132,7 @@ class ListItemMonitor(CommonMonitorFunctions):
 
     def process_artwork(self, details, tmdb_type):
         try:
+            self.clear_property_list(SETMAIN_ARTWORK)
             if self.dbtype not in ['movies', 'tvshows', 'episodes']:
                 if tmdb_type not in ['movie', 'tv']:
                     return

@@ -71,7 +71,12 @@ def related_lists(tmdb_id=None, tmdb_type=None, season=None, episode=None, conta
     item['params']['tmdb_type'] = tmdb_type
     if not container_update:
         return item
-    path = 'Container.Update({})' if xbmc.getCondVisibility("Window.IsMedia") else 'ActivateWindow(videos,{},return)'
+    if item['params']['info'] in ['posters', 'fanart']:
+        path = 'ActivateWindow(pictures,{},return)'
+    elif xbmc.getCondVisibility("Window.IsMedia"):
+        path = 'Container.Update({})'
+    else:
+        path = 'ActivateWindow(videos,{},return)'
     path = path.format(encode_url(path=item.get('path'), **item.get('params')))
     xbmc.executebuiltin(path)
 
