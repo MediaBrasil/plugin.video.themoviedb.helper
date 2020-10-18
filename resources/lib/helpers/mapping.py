@@ -98,6 +98,8 @@ class _ItemMapper(object):
                 for p, c in d['keys']:
                     if c == UPDATE_BASEKEY:
                         item[p].update(v)
+                    elif c is None:
+                        item[p] = v
                     elif 'extend' in d and isinstance(item[p].get(c), list) and isinstance(v, list):
                         item[p][c] += v
                     else:
